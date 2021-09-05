@@ -1,0 +1,34 @@
+<!DOCTYPE HTML>
+<html lang="it">
+<head>
+    <!--Header - Light:-->
+    <meta charset="UTF-8">
+    <meta name="description" content="Sito ufficiale del server italiano RedCraft">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#282828">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" crossorigin="anonymous"></script>
+    <script>
+        $.getJSON('https://api.mcsrvstat.us/2/play.redcraft.it', (result) => {
+            $('body').append('<h2> Status: ' + (result.online?'ONLINE':'OFFLINE'));
+            if(!result.online) return;
+            $('body').append('<image src="' + result.icon + '">');
+            $('body').append('<h4>Motd: ' + result.motd.html);
+            $('body').append('<h4>Version: ' + result.version);
+            $('body').append('<h4>Players: ' + result.players.online + '/' + result.players.max);
+            
+            let playerList = $('<ul>');
+            $('body').append(playerList);
+            result.players.list.forEach(player => {
+                let li = $('<li>').text(player);
+                li.append('<small style="margin-left:10px">' + result.players.uuid[player])
+                playerList.append(li)
+            });
+            console.log(result)
+        })
+    </script>
+    <title>RedCraft - Server Status</title> 
+</head>
+<body>
+    
+</body>
+</html>
